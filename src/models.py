@@ -31,7 +31,7 @@ class NewsSource(str, Enum):
             raise NewsError("Invalid news source")
 
 
-class NewsModel(SQLModel, table=True):
+class NewsModel(SQLModel, table=True):  # type: ignore
     id: Optional[int] = Field(default=None, primary_key=True)
     title: str
     url: str = Field(unique=True)

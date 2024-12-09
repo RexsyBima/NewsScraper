@@ -12,10 +12,9 @@ def process_published_date(text: str):
     if match:
         date_string = match.group(1)
         print("Extracted date string:", date_string)
-        # Convert the extracted date string into a datetime object
         datetime_obj = datetime.strptime(
             date_string, "%d %B %Y %H:%M %Z"
-        )  # TODO -> get rid of hour, minute, seconds
+        )
         return datetime_obj
 
 

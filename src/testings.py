@@ -1,4 +1,5 @@
 from .utils import get_html_content
+import re
 import unittest
 
 
@@ -55,3 +56,18 @@ class TestScraper(unittest.TestCase):
         expected_output = "https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i3dl3qVK8DXw/v1/-1x-1.webp"
         self.assertEqual(
             model.img_url, expected_output)
+
+    def test_re(self):
+
+        # The URL string
+        url = "https://dims.apnews.com/dims4/default/efd49ca/2147483647/strip/true/crop/5758x3837+0+1/resize/980x653!/format/webp/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2Fd7%2F35%2Fbf492720d3f8f39c1d731a9aa301%2Fe4e0e569c9bd4adab91f022e56758035"
+
+        # Enhanced regular expression
+        webp_pattern = r"(?:/|\?|&)(?:format=|file=.*\.)webp(?:$|&|/|#)"
+
+        self.assertEqual(re.search(webp_pattern, url), True)
+        # Search the URL for the pattern
+        if re.search(webp_pattern, url):
+            print("The URL contains a webp image or format.")
+        else:
+            print("The URL does not contain a webp image or format.")

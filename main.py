@@ -1,12 +1,14 @@
 import sys
+import json
 from src.models import NewsSource
-from src.utils import get_html_content, insert_data_to_db
+from src.utils import get_html_content, download_and_convert_to_jpeg
 import unittest
-# import circular error modul A n modul B
+
 # TODO -> implement saving data, maybe onto json/ ke database -> impelement gambar grabber / downloader
 
 
 def run_test():
+    from src.testings import TestScraper
     unittest.main()
 
 
@@ -25,10 +27,15 @@ def main():
             model = soup.scrape_reuters()
         case NewsSource.bloomberg:
             model = soup.scrape_bloomberg()
-        case NewsSource.polico:
+        case NewsSource.politico:
             model = soup.scrape_politico()
-    insert_data_to_db(model)
-    print(model)
+
+    # insert_data_to_db(model)
+    download_and_convert_to_jpeg(model.img_url, model.title)
+    with open("output.json", "w") as f:
+        model.date = str(model.date)
+        json.dump(model.model_dump(), f)
+        print(f"news {model.title} has been saved into json and db")
 
 
 if __name__ == "__main__":
